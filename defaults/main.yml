@@ -1,0 +1,7 @@
+---
+# defaults file for auditd setup
+auditd_max_log_file: 8
+auditd_space_left_action: SYSLOG
+audit_action_mail_acct: root
+audit_admin_space_left_action: halt
+audit_max_log_file_action: keep_logs

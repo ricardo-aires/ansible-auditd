@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: apply auditd setup role
+      include_role:
+        name: ansible-auditd

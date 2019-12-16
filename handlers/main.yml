@@ -1,0 +1,25 @@
+---
+# handlers file for auditd setup
+- name: just force systemd to reread configs
+  systemd:
+    daemon_reload: yes
+  changed_when: true
+  listen: auditd_restart
+
+- name: restart auditd
+  command: service auditd restart
+  args:
+    warn: no
+  listen: auditd_restart
+
+- name: augenrules load
+  command: augenrules --load
+  args:
+    warn: no
+  listen: augenrules_load
+
+- name: warning to reboot
+  debug:
+    msg: Audit rules were changed, a reboot may be required!
+  changed_when: true
+  listen: augenrules_load

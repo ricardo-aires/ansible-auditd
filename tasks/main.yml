@@ -1,0 +1,39 @@
+---
+# tasks file for auditd setup
+- name: ensure auditd is installed
+  yum:
+    name: audit
+    state: present
+
+- name: ensure augenrules is in-place
+  copy:
+    src: auditd.service
+    dest: /etc/systemd/system/auditd.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify: auditd_restart
+
+- name: ensure audit is setup accordingly
+  template:
+    src: auditd.conf.j2
+    dest: /etc/audit/auditd.conf
+    owner: root
+    group: root
+    mode: '0640'
+  notify: auditd_restart
+
+- name: ensure auditd CIS rules are set
+  copy:
+    src: ZZ-CIS.rules
+    dest: /etc/audit/rules.d/
+    owner: root
+    group: root
+    mode: '0600'
+  notify: augenrules_load
+
+- name: ensure auditd is running and enabled
+  systemd:
+    name: auditd
+    state: started
+    enabled: yes
