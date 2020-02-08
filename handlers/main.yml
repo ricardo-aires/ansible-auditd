@@ -1,5 +1,5 @@
 ---
-# handlers file for auditd setup
+# handlers file for auditd
 - name: just force systemd to reread configs
   systemd:
     daemon_reload: yes
